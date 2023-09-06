@@ -17,11 +17,76 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: white;
+  background: #361b14;
 }
+
+.bg-primary {
+  background: #fde4d3 !important;
+}
+
+.text-primary {
+  color: #361b14;
+}
+
+@font-face {
+  font-family: Mulish-bold;
+  src: url("../assets/fonts/Mulish-Bold.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: Mulish-demi;
+  src: url("../assets/fonts/Mulish-Demi.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: Mulish-medium;
+  src: url("../assets/fonts/Mulish-Medium.ttf");
+  font-display: swap;
+}
+@font-face {
+  font-family: Mulish-regular;
+  src: url("../assets/fonts/Mulish-Regular.ttf");
+  font-display: swap;
+}
+
+.font-bold {
+  font-family: Mulish-bold !important;
+}
+.font-demi {
+  font-family: Mulish-demi !important;
+}
+.font-medium {
+  font-family: Mulish-medium !important;
+}
+.font-regular {
+  font-family: Mulish-regular !important;
+}
+
+body {
+  font-family: Mulish-regular !important;
+}
+
+.text-yellow {
+  background: #f4b13d;
+}
+
+.box-shadow-box {
+  box-shadow: 15px 15px #f4b13d;
+}
+
+.bg-input-box {
+  background: url("../assets/images/bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* .illustration-box{
+  background: url("../assets/images/illustration.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;  
+  margin-top: 40px;
+  margin-bottom: 40px;
+} */
