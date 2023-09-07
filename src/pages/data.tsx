@@ -2,53 +2,6 @@ import { useState } from "react";
 import router from "next/router";
 
 export default function Data() {
-  const [inputDivs, setInputDivs] = useState([{ input: "", output: "" }]);
-  const [formData, setFormData] = useState({
-    problemType: "test-classification",
-    problemDescription: "",
-    numClasses: "",
-    inputDivs: [{ input: "", output: "" }],
-    apiKey: "",
-  });
-
-  const handleAddInputDiv = () => {
-    setInputDivs([...inputDivs, { input: "", output: "" }]);
-  };
-
-  const handleInputChange = (index: any, field: any, value: any) => {
-    const updatedInputDivs = [...inputDivs];
-    //@ts-ignore
-    updatedInputDivs[index][field] = value;
-    setFormData({
-      ...formData,
-      inputDivs: updatedInputDivs,
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log(formData);
-  };
-
-  const renderInputDivs = () => {
-    return inputDivs.map((div, index) => (
-      <div key={index} className="flex">
-        <input
-          type="text"
-          className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1"
-          placeholder="Input"
-          value={div.input}
-          onChange={(e) => handleInputChange(index, "input", e.target.value)}
-        />
-        <input
-          type="text"
-          className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1 ml-4"
-          placeholder="Output"
-          value={div.output}
-          onChange={(e) => handleInputChange(index, "output", e.target.value)}
-        />
-      </div>
-    ));
-  };
 
   return (
     <main className={``}>

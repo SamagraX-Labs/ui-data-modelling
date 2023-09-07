@@ -1,22 +1,26 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useStateContext } from '@component/context';
+import router from 'next/router';
+import { useState } from 'react';
 
 export default function Home() {
-  const [inputDivs, setInputDivs] = useState([{ input: "", output: "" }]);
+  const { setData } = useStateContext();
   const [formData, setFormData] = useState({
-    problemType: "test-classification",
-    problemDescription: "",
-    numClasses: "",
-    inputDivs: [{ input: "", output: "" }],
-    apiKey: "",
+    problemType: 'text_classification',
+    problemDescription: '',
+    numClasses: '',
+    inputDivs: [{ input: '', output: '' }],
+    apiKey: '',
   });
 
   const handleAddInputDiv = () => {
-    setInputDivs([...inputDivs, { input: "", output: "" }]);
+    setFormData({
+      ...formData,
+      inputDivs: [...formData.inputDivs, { input: '', output: '' }],
+    });
   };
 
   const handleInputChange = (index: any, field: any, value: any) => {
-    const updatedInputDivs = [...inputDivs];
+    const updatedInputDivs = [...formData.inputDivs];
     //@ts-ignore
     updatedInputDivs[index][field] = value;
     setFormData({
@@ -24,28 +28,55 @@ export default function Home() {
       inputDivs: updatedInputDivs,
     });
   };
-  const router = useRouter();
-  const handleSubmit = () => {
-    console.log(formData);
-    router.push("/data");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/data/view`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-OpenAI-Key': formData.apiKey,
+          },
+          body: JSON.stringify({
+            prompt: formData.inputDivs,
+            num_samples: formData.numClasses,
+            task: formData.problemType,
+            num_labels: formData.inputDivs.length,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setData(formData);
+        router.push('/data');
+      } else {
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   const renderInputDivs = () => {
-    return inputDivs.map((div, index) => (
+    return formData.inputDivs.map((div, index) => (
       <div key={index} className="flex">
         <input
           type="text"
           className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1"
           placeholder="Input"
           value={div.input}
-          onChange={(e) => handleInputChange(index, "input", e.target.value)}
+          onChange={(e) => handleInputChange(index, 'input', e.target.value)}
         />
         <input
           type="text"
           className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1 ml-4"
           placeholder="Output"
           value={div.output}
-          onChange={(e) => handleInputChange(index, "output", e.target.value)}
+          onChange={(e) => handleInputChange(index, 'output', e.target.value)}
         />
       </div>
     ));
@@ -59,7 +90,7 @@ export default function Home() {
         </div> */}
         <div className="w-[auto] col-span-4 flex justify-center items-center flex-col min-h-screen mx-10 py-20">
           <div className="bg-primary border-b border-[#361b14] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
-            Simplify the{" "}
+            Simplify the{' '}
             <span className="text-yellow px-4 py-2">creation of data</span>
           </div>
           <div className="box-shadow-box w-full bg-white py-6 px-4">
@@ -72,10 +103,9 @@ export default function Home() {
                 value={formData.problemType}
                 onChange={(e) =>
                   setFormData({ ...formData, problemType: e.target.value })
-                }
-              >
-                <option value="test-classification">Test Classification</option>
-                <option value="sequence-2-sequence">Sequence 2 Sequence</option>
+                }>
+                <option value="text_classification">Text Classification</option>
+                <option value="seq2seq">Sequence 2 Sequence</option>
               </select>
             </div>
             <div className="py-2 w-full text-primary font-demi p-2">
@@ -83,7 +113,7 @@ export default function Home() {
               <input
                 type="text"
                 className="border rounded mt-2 w-full px-2 shadow-lg py-1"
-                placeholder={"Description of the problem"}
+                placeholder={'Description of the problem'}
                 value={formData.problemDescription}
                 onChange={(e) =>
                   setFormData({
@@ -113,8 +143,7 @@ export default function Home() {
               {renderInputDivs()}
               <button
                 onClick={handleAddInputDiv}
-                className="mt-4 w-fit rounded-lg px-12 bg-[#361b14] font-bold pb-1 text-[25px] text-white cursor-pointer"
-              >
+                className="mt-4 w-fit rounded-lg px-12 bg-[#361b14] font-bold pb-1 text-[25px] text-white cursor-pointer">
                 +
               </button>
             </div>
