@@ -3,19 +3,19 @@ import router from 'next/router';
 import { useState } from 'react';
 
 export default function Home() {
-  const { setData } = useStateContext();
+  const { setData, setRes } = useStateContext();
   const [formData, setFormData] = useState({
     problemType: 'text_classification',
     problemDescription: '',
     numClasses: '',
-    inputDivs: [{ input: '', output: '' }],
+    inputDivs: [{ text: '', label: '' }],
     apiKey: '',
   });
 
   const handleAddInputDiv = () => {
     setFormData({
       ...formData,
-      inputDivs: [...formData.inputDivs, { input: '', output: '' }],
+      inputDivs: [...formData.inputDivs, { text: '', label: '' }],
     });
   };
 
@@ -37,13 +37,13 @@ export default function Home() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'X-OpenAI-Key': formData.apiKey,
+            'X-OpenAI-Key': formData?.apiKey,
           },
           body: JSON.stringify({
-            prompt: formData.inputDivs,
-            num_samples: formData.numClasses,
-            task: formData.problemType,
-            num_labels: formData.inputDivs.length,
+            prompt: JSON.stringify(formData?.problemDescription) + "\n" + "Some samples are as follows, and generate data in the following structure:" + "\n" + JSON.stringify(formData.inputDivs),
+            num_samples: parseInt(formData?.numClasses) || 10,
+            task: formData?.problemType,
+            num_labels: formData?.inputDivs?.length,
           }),
         }
       );
@@ -51,6 +51,7 @@ export default function Home() {
       if (response.ok) {
         const result = await response.json();
         console.log(result);
+        setRes(result);
         setData(formData);
         router.push('/data');
       } else {
@@ -67,16 +68,16 @@ export default function Home() {
         <input
           type="text"
           className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1"
-          placeholder="Input"
-          value={div.input}
-          onChange={(e) => handleInputChange(index, 'input', e.target.value)}
+          placeholder="Text"
+          value={div.text}
+          onChange={(e) => handleInputChange(index, 'text', e.target.value)}
         />
         <input
           type="text"
-          className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1 ml-4"
-          placeholder="Output"
-          value={div.output}
-          onChange={(e) => handleInputChange(index, 'output', e.target.value)}
+          className="border rounded mt-2 font-regular w-full px-2 shadow-lg py-1 ml-4"
+          placeholder="Label"
+          value={div.label}
+          onChange={(e) => handleInputChange(index, 'label', e.target.value)}
         />
       </div>
     ));
@@ -132,7 +133,7 @@ export default function Home() {
                 placeholder="Number of classes"
                 value={formData.numClasses}
                 onChange={(e) =>
-                  setFormData({ ...formData, numClasses: e.target.value })
+                  setFormData({ ...formData, numClasses: e?.target?.value })
                 }
               />
             </div>

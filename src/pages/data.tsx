@@ -1,7 +1,33 @@
-import { useState } from "react";
-import router from "next/router";
+import { useState, useEffect } from 'react';
+import router from 'next/router';
+import { useStateContext } from '@component/context';
 
 export default function Data() {
+  const { res } = useStateContext();
+  const [tableData, setTabledata] = useState([]);
+
+  useEffect(() => {
+    function fetchTaskStatus(taskId: string) {
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/track/${taskId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Status:', data.status);
+          if (data.status !== 'Generated') {
+            setTimeout(() => {
+              fetchTaskStatus(taskId);
+            }, 3000);
+          } else {
+            console.log('Status:', data.status);
+            setTabledata(data?.response);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+    fetchTaskStatus(res?.task_id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className={``}>
@@ -11,7 +37,15 @@ export default function Data() {
             <span className="text-yellow px-4 py-2">Output</span> of data
           </div>
           <div className="box-shadow-box w-full bg-white py-6 px-4 text-primary font-medium">
-            <table className="table-auto">
+            {tableData &&
+              tableData.length > 0 &&
+              tableData?.map((data) => <>
+              <div className='bg-primary px-5'>
+                {/* @ts-ignore */}
+                {data?.text}
+              </div>
+              </>)}
+            {/* <table className="table-auto">
               <thead className="bg-[#361b14] text-white font-demi py-2">
                 <tr className="border-b pb-2">
                   <th className="px-4 py-3">S.No</th>
@@ -104,15 +138,23 @@ export default function Data() {
                   <td className="px-4 py-2">777 Pine St, Village</td>
                 </tr>
               </tbody>
-            </table>
+            </table> */}
           </div>
           <div className="bg-primary border-b border-[#361b14] px-10 w-full py-3 text-center text-primary font-bold text-[25px] box-shadow-box flex justify-center">
-            <div className="bg-[#361b14] px-3 mr-2 cursor-pointer" onClick={() => {
-              router.push("/repo")
-            }}>😊</div>
-            <div className="bg-[#361b14] px-3 cursor-pointer" onClick={() => {
-              router.push("/")
-            }}>😕</div>
+            <div
+              className="bg-[#361b14] px-3 mr-2 cursor-pointer"
+              onClick={() => {
+                router.push('/repo');
+              }}>
+              😊
+            </div>
+            <div
+              className="bg-[#361b14] px-3 cursor-pointer"
+              onClick={() => {
+                router.push('/');
+              }}>
+              😕
+            </div>
           </div>
         </div>
       </div>
