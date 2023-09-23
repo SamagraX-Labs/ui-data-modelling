@@ -8,7 +8,11 @@ export default function Data() {
 
   useEffect(() => {
     function fetchTaskStatus(taskId: string) {
-      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/track/${taskId}`)
+      fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/track/${taskId}`,{
+        headers:{
+          "ngrok-skip-browser-warning": "69420"
+        }
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log('Status:', data.status);
@@ -42,7 +46,7 @@ export default function Data() {
               tableData?.map((data) => <>
               <div className='bg-primary px-5'>
                 {/* @ts-ignore */}
-                {data?.text}
+                {data?.label ? data?.label : data?.Input} - {data?.text ? data?.text : data?.Output}
               </div>
               </>)}
             {/* <table className="table-auto">

@@ -7,15 +7,17 @@ export default function Home() {
   const [formData, setFormData] = useState({
     problemType: 'text_classification',
     problemDescription: '',
+    numSamples: '',
     numClasses: '',
-    inputDivs: [{ text: '', label: '' }],
+    inputDivs: [],
     apiKey: '',
   });
 
   const handleAddInputDiv = () => {
     setFormData({
       ...formData,
-      inputDivs: [...formData.inputDivs, { text: '', label: '' }],
+      //@ts-ignore
+      inputDivs: [...formData.inputDivs, formData?.problemType === "text_classification" ? { text: '', label: '' } : { Input: '', Output: '' }],
     });
   };
 
@@ -41,7 +43,7 @@ export default function Home() {
           },
           body: JSON.stringify({
             prompt: JSON.stringify(formData?.problemDescription) + "\n" + "Some samples are as follows, and generate data in the following structure:" + "\n" + JSON.stringify(formData.inputDivs),
-            num_samples: parseInt(formData?.numClasses) || 10,
+            num_samples: parseInt(formData?.numSamples) || 10,
             task: formData?.problemType,
             num_labels: formData?.inputDivs?.length,
           }),
@@ -68,16 +70,16 @@ export default function Home() {
         <input
           type="text"
           className="border rounded mt-2  font-regular w-full px-2 shadow-lg py-1"
-          placeholder="Text"
-          value={div.text}
-          onChange={(e) => handleInputChange(index, 'text', e.target.value)}
+          placeholder={formData?.problemType === "text_classification" ? 'Text' : "Input"}
+          value={formData?.problemType === "text_classification" ? div.text : div.Input}
+          onChange={(e) => handleInputChange(index, formData?.problemType === "text_classification" ? 'text' : "Input", e.target.value)}
         />
         <input
           type="text"
           className="border rounded mt-2 font-regular w-full px-2 shadow-lg py-1 ml-4"
-          placeholder="Label"
-          value={div.label}
-          onChange={(e) => handleInputChange(index, 'label', e.target.value)}
+          placeholder={formData?.problemType === "text_classification" ? 'Label' : "Output"}
+          value={formData?.problemType === "text_classification" ? div.label : div.Output}
+          onChange={(e) => handleInputChange(index, formData?.problemType === "text_classification" ? 'label' : "Output", e.target.value)}
         />
       </div>
     ));
@@ -125,6 +127,19 @@ export default function Home() {
               />
             </div>
             <div className="py-2 w-full text-primary font-demi p-2">
+              <label htmlFor="num-samples">Number of samples:</label>
+              <input
+                type="number"
+                name="num-samples"
+                className="border rounded mt-2 w-full px-2 shadow-lg py-1"
+                placeholder="Number of samples"
+                value={formData.numSamples}
+                onChange={(e) =>
+                  setFormData({ ...formData, numSamples: e?.target?.value })
+                }
+              />
+            </div>
+            {formData?.problemType === "text_classification" && <div className="py-2 w-full text-primary font-demi p-2">
               <label htmlFor="num-classes">Number of classes:</label>
               <input
                 type="number"
@@ -136,7 +151,7 @@ export default function Home() {
                   setFormData({ ...formData, numClasses: e?.target?.value })
                 }
               />
-            </div>
+            </div>}
             <div className="py-2 w-full text-primary font-demi p-2 text-center">
               <div className="flex items-center">
                 <p>Example</p>
