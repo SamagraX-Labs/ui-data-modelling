@@ -17,16 +17,16 @@
 }
 
 body {
-  color: white;
-  background: #361b14;
+  color: black;
+  background: #e1effc;
 }
 
 .bg-primary {
-  background: #fde4d3 !important;
+  background: #aed1f5 !important;
 }
 
 .text-primary {
-  color: #361b14;
+  color: #000;
 }
 
 @font-face {
@@ -68,11 +68,12 @@ body {
 }
 
 .text-yellow {
-  background: #f4b13d;
+  /* background: darkblue; */
+  color: black;
 }
 
 .box-shadow-box {
-  box-shadow: 15px 15px #f4b13d;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .bg-input-box {

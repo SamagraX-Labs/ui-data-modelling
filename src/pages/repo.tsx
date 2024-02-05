@@ -49,9 +49,9 @@ export default function Repo() {
           <img src="./illustration.svg" width={"750px"} height={"750px"} />
         </div> */}
         <div className="w-[auto] col-span-4 flex justify-center items-center flex-col min-h-screen mx-10 py-20">
-          <div className="bg-primary border-b border-[#361b14] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
+          <div className="bg-primary border-b border-[#aed1f5] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
             Share the{' '}
-            <span className="text-yellow px-4 py-2">repo credentials</span>
+            <span className="text-yellow py-2">repo credentials</span>
           </div>
           <div className="box-shadow-box w-full bg-white py-6 px-4">
             <div className="py-2 w-full text-primary font-demi p-2">
@@ -98,10 +98,10 @@ export default function Repo() {
               />
             </div>
             <div className="flex items-center justify-center">
-              <div className="py-2 bg-[#361b14] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer w-full mx-2">
+              <div className="py-2 bg-[#aed1f5] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer w-full mx-2">
                 <button onClick={() => handleSubmit('create')}>Create</button>
               </div>
-              <div className="py-2 bg-[#361b14] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer w-full mx-2">
+              <div className="py-2 bg-[#aed1f5] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer w-full mx-2">
                 <button onClick={() => handleSubmit('update')}>Update</button>
               </div>
             </div>

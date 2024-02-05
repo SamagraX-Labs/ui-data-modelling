@@ -8,6 +8,7 @@ export default function Home() {
     problemType: 'text_classification',
     problemDescription: '',
     numSamples: '',
+    samples: '',
     numClasses: '',
     inputDivs: [],
     apiKey: '',
@@ -44,6 +45,7 @@ export default function Home() {
           body: JSON.stringify({
             prompt: JSON.stringify(formData?.problemDescription) + "\n" + "Some samples are as follows, and generate data in the following structure:" + "\n" + JSON.stringify(formData.inputDivs),
             num_samples: parseInt(formData?.numSamples) || 10,
+            // samples: ,
             task: formData?.problemType,
             num_labels: formData?.inputDivs?.length,
           }),
@@ -65,7 +67,7 @@ export default function Home() {
   };
 
   const renderInputDivs = () => {
-    return formData.inputDivs.map((div, index) => (
+    return formData.inputDivs.map((div: any, index) => (
       <div key={index} className="flex">
         <input
           type="text"
@@ -91,11 +93,11 @@ export default function Home() {
         {/* <div className="col-span-5 flex justify-end">
           <img src="./illustration.svg" width={"750px"} height={"750px"} />
         </div> */}
-        <div className="w-[auto] col-span-4 flex justify-center items-center flex-col min-h-screen mx-10 py-20">
-          <div className="bg-primary border-b border-[#361b14] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
+        <div className="col-span-4 w-[75vw] flex justify-center items-center flex-col min-h-screen mx-10 py-5">
+          {/* <div className="bg-primary border-b border-[#aed1f5] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
             Simplify the{' '}
-            <span className="text-yellow px-4 py-2">creation of data</span>
-          </div>
+            <span className="text-yellow py-2">creation of data</span>
+          </div> */}
           <div className="box-shadow-box w-full bg-white py-6 px-4">
             <div className="py-2 w-full text-primary font-demi p-2">
               <label htmlFor="dropdown">Types of problems:</label>
@@ -139,6 +141,19 @@ export default function Home() {
                 }
               />
             </div>
+            <div className="py-2 w-full text-primary font-demi p-2">
+              <label htmlFor="samples">Samples:</label>
+              <input
+                type="text"
+                name="samples"
+                className="border rounded mt-2 w-full px-2 shadow-lg py-1"
+                placeholder="Type comma separated samples"
+                value={formData.samples}
+                onChange={(e) =>
+                  setFormData({ ...formData, samples: e?.target?.value })
+                }
+              />
+            </div>
             {formData?.problemType === "text_classification" && <div className="py-2 w-full text-primary font-demi p-2">
               <label htmlFor="num-classes">Number of classes:</label>
               <input
@@ -159,7 +174,7 @@ export default function Home() {
               {renderInputDivs()}
               <button
                 onClick={handleAddInputDiv}
-                className="mt-4 w-fit rounded-lg px-12 bg-[#361b14] font-bold pb-1 text-[25px] text-white cursor-pointer">
+                className="mt-4 w-fit rounded-lg px-12 bg-[#aed1f5] font-bold pb-1 text-[25px] text-white cursor-pointer">
                 +
               </button>
             </div>
@@ -176,7 +191,7 @@ export default function Home() {
                 }
               />
             </div>
-            <div className="py-2 m-auto bg-[#361b14] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer">
+            <div className="py-2 m-auto bg-[#aed1f5] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer">
               <button onClick={handleSubmit}>Confirm</button>
             </div>
           </div>

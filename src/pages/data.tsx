@@ -37,8 +37,8 @@ export default function Data() {
     <main className={``}>
       <div className="flex justify-center">
         <div className="w-[auto] col-span-4 flex justify-center items-center flex-col min-h-screen mx-10 py-20">
-          <div className="bg-primary border-b border-[#361b14] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
-            <span className="text-yellow px-4 py-2">Output</span> of data
+          <div className="bg-primary border-b border-[#aed1f5] px-10 w-full py-8 text-center text-primary font-bold text-[25px] box-shadow-box">
+            <span className="text-yellow py-2">Output</span> of data
           </div>
           <div className="box-shadow-box w-full bg-white py-6 px-4 text-primary font-medium">
             {tableData &&
@@ -50,7 +50,7 @@ export default function Data() {
               </div>
               </>)}
             {/* <table className="table-auto">
-              <thead className="bg-[#361b14] text-white font-demi py-2">
+              <thead className="bg-[#aed1f5] text-white font-demi py-2">
                 <tr className="border-b pb-2">
                   <th className="px-4 py-3">S.No</th>
                   <th className="px-4 py-3">Name</th>
@@ -144,16 +144,16 @@ export default function Data() {
               </tbody>
             </table> */}
           </div>
-          <div className="bg-primary border-b border-[#361b14] px-10 w-full py-3 text-center text-primary font-bold text-[25px] box-shadow-box flex justify-center">
+          <div className="bg-primary border-b border-[#aed1f5] px-10 w-full py-3 text-center text-primary font-bold text-[25px] box-shadow-box flex justify-center">
             <div
-              className="bg-[#361b14] px-3 mr-2 cursor-pointer"
+              className="bg-[#aed1f5] px-3 mr-2 cursor-pointer"
               onClick={() => {
                 router.push('/repo');
               }}>
               😊
             </div>
             <div
-              className="bg-[#361b14] px-3 cursor-pointer"
+              className="bg-[#aed1f5] px-3 cursor-pointer"
               onClick={() => {
                 router.push('/');
               }}>
