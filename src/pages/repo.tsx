@@ -102,6 +102,9 @@ export default function Repo() {
                 <button onClick={() => handleSubmit('create')}>Create</button>
               </div>
               <div className="py-2 bg-[#aed1f5] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer w-full mx-2">
+                <button onClick={() => window.location.pathname = '/data'}>Back</button>
+              </div>
+              <div className="py-2 bg-[#aed1f5] text-center rounded-lg font-bold p-2 mt-5 cursor-pointer w-full mx-2">
                 <button onClick={() => handleSubmit('update')}>Update</button>
               </div>
             </div>
